@@ -1,0 +1,60 @@
+Caduta di tensione LED (varia in base al colore):
+colore rosso: 1,8 V
+colore giallo: 1,9 V
+colore verde: 2,0 V
+colore arancio: 2,0 V
+colore blu: 3,0 V
+colore bianco: 3,0 V
+
+
+
+
+V = (5 - 1,8) V = 3,2 Volt
+I = 20 mA
+R = V/I = (3,2 V / 20 mA ) = 0,16 kOhm = 160 Ohm.
+
+
+Programma 
+void setup()
+{
+pinMode(2, OUTPUT); //inzializzo il pin 2 come segnale OUTPUT
+}
+
+void loop()
+{
+digitalWrite(2, HIGH); //trasmetto un segnale HIGH per accendere il led
+delay(1000); //aspetto 1000 millisecondi
+digitalWrite(2, LOW);//trasmetto un segnale LOW per spegnere il led
+delay(1000); //aspetto 1000 millisecondi
+}
+
+
+-------------------------------------
+
+
+digitalWrite(2, HIGH);
+digitalWrite(3,HIGH);
+delay(1000);
+digitalWrite(2, LOW);
+digitalWrite(3,LOW);
+delay(1000);
+
+
+-------------------------------------
+
+
+void setup()
+{
+  pinMode(2, OUTPUT); //inzializzo
+  pinMode(3, OUTPUT);
+}
+ 
+void loop()
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  delay(1000);
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  delay(1000);
+}

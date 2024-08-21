@@ -1,0 +1,356 @@
+
+
+
+
+Caduta di tensione LED (varia in base al colore):
+colore rosso: 1,8 V
+colore giallo: 1,9 V
+colore verde: 2,0 V
+colore arancio: 2,0 V
+colore blu: 3,0 V
+colore bianco: 3,0 V
+
+
+
+
+V = (5 - 1,8) V = 3,2 Volt
+I = 20 mA
+R = V/I = (3,2 V / 20 mA ) = 0,16 kOhm = 160 Ohm.
+
+
+Programma 
+void setup()
+{
+pinMode(2, OUTPUT); //inzializzo il pin 2 come segnale OUTPUT
+}
+
+void loop()
+{
+digitalWrite(2, HIGH); //trasmetto un segnale HIGH per accendere il led
+delay(1000); //aspetto 1000 millisecondi
+digitalWrite(2, LOW);//trasmetto un segnale LOW per spegnere il led
+delay(1000); //aspetto 1000 millisecondi
+}
+
+
+-------------------------------------
+
+
+digitalWrite(2, HIGH);
+digitalWrite(3,HIGH);
+delay(1000);
+digitalWrite(2, LOW);
+digitalWrite(3,LOW);
+delay(1000);
+
+
+-------------------------------------
+
+
+void setup()
+{
+  pinMode(2, OUTPUT); //inzializzo
+  pinMode(3, OUTPUT);
+}
+ 
+void loop()
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  delay(1000);
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  delay(1000);
+}
+
+
+-----------------NodeJS---------
+
+
+
+
+apt-get install nodejs-legacy
+apt-get install build-essential
+npm install serialport
+npm install johnny-five
+
+
+
+const { Board, Led } = require("johnny-five");
+const board = new Board();
+
+board.on("ready", () => {
+const led = new Led(13);
+
+board.repl.inject({
+led
+});
+
+led.blink();
+});
+
+
+led.stop()
+
+led.off()
+led.on()
+
+----------------------------------------------
+var five = require("johnny-five");
+
+
+five.Board().on("ready", function() {
+
+var led = new five.Led.RGB({
+pins: {
+red: 6,
+green: 5,
+blue: 3
+}
+});
+
+
+this.repl.inject({
+led: led
+});
+
+
+led.on();
+  led.color("#FF0000");
+
+
+  led.blink(1000);
+
+
+});
+
+
+-----------------------------------------------
+
+
+var five = require("johnny-five"),
+    board = new five.Board();
+
+
+
+
+board.on("ready", function() {
+
+var led = new five.Led(13);
+
+
+led.strobe();
+});
+
+
+
+
+sudo node led.js
+
+
+
+
+
+
+npm install --save express
+
+
+
+
+const express = require("express");
+const five = require('johnny-five');
+const app = express();
+
+
+
+
+
+
+var board = new five.Board();
+var isReady = false;
+var isOn = false;
+var led;
+
+
+
+
+app.listen(3000, () => {
+console.log("Servidor rodando na porta 3000");
+});
+
+app.use(function(req, res, next) {
+res.header("Access-Control-Allow-Origin", "*");
+res.header("Access-Control-Allow-Headers", "*");
+next();
+});
+
+
+
+
+
+
+
+
+app.route("/")
+.get((req, res) => {
+toggleLed();
+res.json({status: isOn});
+});
+
+
+controller. js
+
+
+board.on('ready', function() {
+// Define the pin 13 to be used
+led = new five.Led(13);
+// Turn off the Led
+led.off();
+// save the actual state of the Led
+isReady = true;
+});
+
+
+
+
+
+
+function toggleLed () {
+    // If the Led is on
+    if (isOn) {
+        //Turn off the Led
+        led.off();
+        isOn = false;
+    } else {
+        //Turn on the Led
+        led.on();
+        isOn = true;
+    }
+} 
+
+
+sudo node controller.js
+------------------------------------
+
+
+
+
+.div-buttons {
+display: flex;
+justify-content: center;
+padding-top: 20%;
+}
+
+.buttons {
+width: auto;
+height: 140px;
+}
+
+.img-led {
+height: 70px;
+width: auto;
+}
+
+.title {
+display: flex;
+justify-content: center;
+}
+
+#text-led {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 20pt;
+text-transform: uppercase;
+}
+
+body {
+background-color: beige;
+background-image: linear-gradient(to right,#e5e5ff, #ccccff);
+}
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="index.css">
+<title>Led Controller</title>
+</head>
+<body>
+
+<div class="title"></div>
+<div class="div-buttons"></div>
+
+<!-- Used to made HTTP request -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
+
+
+
+
+function consultarStatusLed(){
+let url = 'http://localhost:3000/';
+
+axios.get(url, conf)
+.then(function (response) {
+changeButtons(response.data.status);
+})
+.catch(function (error) {
+// handle error
+console.log(error);
+})
+}
+
+
+
+
+const $ = document.querySelector.bind(document);
+
+function changeButtons(valor){
+if(valor == false){
+$(".div-buttons").innerHTML = `<input type="image" src="img/on.png" class="buttons" onclick="mudarStatusLed()">`;
+$(".title").innerHTML = `
+<img src="img/led-off.svg" class="img-led">
+<h3 id="text-led" style='color:green'>Led Controller</h3>
+<img src="img/led-off.svg" class="img-led">
+`;
+}else {
+$(".div-buttons").innerHTML = `<input type="image" src="img/off.png" class="buttons" onclick="mudarStatusLed()">`;
+$(".title").innerHTML = `
+<img src="img/led-on.svg" class="img-led">
+<h3 id="text-led" style='color:red'>Led Controller</h3>
+<img src="img/led-on.svg" class="img-led">
+`;
+}
+}
+
+function mudarStatusLed(){
+consultarStatusLed();
+}
+
+
+
+
+consultarStatusLed();
+
+
+
+
+
+
+
+
+
+
+
